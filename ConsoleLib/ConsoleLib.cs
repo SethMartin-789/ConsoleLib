@@ -142,7 +142,7 @@ public static class Cslib
 
     public static int ReadIntWithinBounds(
         int lowerBound, int upperBound,
-        string prefix = " ==> ", string errorMessage = "Error : Invalid whole number.")
+        string prefix = " ==> ", string errorMessage = "Erreur : Nombre entier invalide.")
     {
         // Variable
         string input;
