@@ -92,7 +92,7 @@ public static class Cslib
     /// <summary>
     /// Reads a line of text in the console
     /// </summary>
-    /// <param name="prefix">String written before user input</param>
+    /// <param name="prefix">A string shown before user input</param>
     /// <returns>User input</returns>
     public static string ReadText(string prefix = DEFAULT_PREFIX)
     {
@@ -121,7 +121,7 @@ public static class Cslib
     /// Reads a line of text in the console
     /// </summary>
     /// <param name="textBeforePrefix"></param>
-    /// <param name="prefix">String written before user input</param>
+    /// <param name="prefix">A string shown before user input</param>
     /// <returns>User input</returns>
     public static string ReadText(string textBeforePrefix, string prefix = DEFAULT_PREFIX)
     {
@@ -132,13 +132,16 @@ public static class Cslib
     /// Reads a limited amount of characters in the console
     /// </summary>
     /// <param name="charCount">The amount of characters to read</param>
-    /// <param name="prefix">The prefix to show on the console</param>
+    /// <param name="prefix">A string shown before user input</param>
     /// <returns>A string of the characters read</returns>
-    public static string ReadTextLimited(uint charCount, string prefix = DEFAULT_PREFIX)
+    public static string ReadTextLimited(uint charCount, bool newlineAfterRead = false, string prefix = DEFAULT_PREFIX)
     {
         // Variables
         List<char> input = new();
         int index = 0;
+
+        // Show prefix
+        Console.Write(prefix);
 
         while (index < charCount)
         {
@@ -146,6 +149,8 @@ public static class Cslib
 
             index++;
         }
+
+        if (newlineAfterRead) Console.WriteLine();
 
         return new string( input.ToArray() );
     }
@@ -192,10 +197,34 @@ public static class Cslib
 
     #region ReadBool
 
-    public static bool ReadBool(char charTrue, char charFalse, string prefixe = DEFAULT_PREFIX)
+    /// <summary>
+    /// Reads a boolean from the console
+    /// </summary>
+    /// <param name="charTrue">The character representing the boolean true</param>
+    /// <param name="charFalse">The cahracter representing the boolean false</param>
+    /// <param name="prefix"></param>
+    /// <returns></returns>
+    public static bool ReadBool(char charTrue, char charFalse, bool falseByDefault = true, string prefix = DEFAULT_PREFIX)
     {
         // Variable
-        char[] charArray;
+        char input;
+        bool result = falseByDefault ? false : true;
+
+        // Show prefix
+        Console.Write(prefix);
+
+        input = ReadTextLimited(1, true, prefix)[0];
+
+        if (falseByDefault)
+        {
+            if (input == charTrue) result = true;
+        }
+        else
+        {
+            if (input == charFalse) result = false;
+        }
+
+        return result;
     }
 
     #endregion
