@@ -198,12 +198,12 @@ public static class Cslib
     #region ReadBool
 
     /// <summary>
-    /// Reads a boolean from the console
+    /// Reads a boolean from the console in a case insensitive way
     /// </summary>
     /// <param name="charTrue">The character representing the boolean true</param>
     /// <param name="charFalse">The character representing the boolean false</param>
-    /// <param name="prefix"></param>
-    /// <returns></returns>
+    /// <param name="prefix">A string shown before user input</param>
+    /// <returns>The read boolean</returns>
     public static bool ReadBool(char charTrue, char charFalse, bool falseByDefault = true, string prefix = DEFAULT_PREFIX)
     {
         // Variables
