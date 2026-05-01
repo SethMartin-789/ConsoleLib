@@ -213,8 +213,10 @@ public static class Cslib
         // Show prefix
         Console.Write(prefix);
 
+        // Read the boolean
         input = ReadTextLimited(1, true, prefix).ToLower();
 
+        // Interpret according to the falseByDefault parameter
         if (falseByDefault)
         {
             if (input == charTrue.ToString().ToLower()) result = true;
