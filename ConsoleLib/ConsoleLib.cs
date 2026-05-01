@@ -207,21 +207,21 @@ public static class Cslib
     public static bool ReadBool(char charTrue, char charFalse, bool falseByDefault = true, string prefix = DEFAULT_PREFIX)
     {
         // Variables
-        char input;
+        string input;
         bool result = falseByDefault ? false : true;
 
         // Show prefix
         Console.Write(prefix);
 
-        input = ReadTextLimited(1, true, prefix)[0];
+        input = ReadTextLimited(1, true, prefix).ToLower();
 
         if (falseByDefault)
         {
-            if (input == charTrue) result = true;
+            if (input == charTrue.ToString().ToLower()) result = true;
         }
         else
         {
-            if (input == charFalse) result = false;
+            if (input == charFalse.ToString().ToLower()) result = false;
         }
 
         return result;
