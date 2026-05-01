@@ -201,12 +201,12 @@ public static class Cslib
     /// Reads a boolean from the console
     /// </summary>
     /// <param name="charTrue">The character representing the boolean true</param>
-    /// <param name="charFalse">The cahracter representing the boolean false</param>
+    /// <param name="charFalse">The character representing the boolean false</param>
     /// <param name="prefix"></param>
     /// <returns></returns>
     public static bool ReadBool(char charTrue, char charFalse, bool falseByDefault = true, string prefix = DEFAULT_PREFIX)
     {
-        // Variable
+        // Variables
         char input;
         bool result = falseByDefault ? false : true;
 
