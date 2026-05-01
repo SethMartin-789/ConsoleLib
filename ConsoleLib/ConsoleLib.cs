@@ -3,6 +3,7 @@
 public static class Cslib
 {
     // Constants
+    const string DEFAULT_PREFIX     = " ==> ";
     const ConsoleColor COLOR_BASE   = ConsoleColor.Gray;
     const ConsoleColor COLOR_INPUT  = ConsoleColor.Green;
     const ConsoleColor COLOR_PREFIX = ConsoleColor.White;
@@ -89,11 +90,11 @@ public static class Cslib
     #region ReadText
 
     /// <summary>
-    /// Read a line of text in the console
+    /// Reads a line of text in the console
     /// </summary>
     /// <param name="prefix">String written before user input</param>
     /// <returns>User input</returns>
-    public static string ReadText(string prefix = " ==> ")
+    public static string ReadText(string prefix = DEFAULT_PREFIX)
     {
         // Variable
         string? entry;
@@ -117,18 +118,37 @@ public static class Cslib
     }
 
     /// <summary>
-    /// Read a line of text in the console
+    /// Reads a line of text in the console
     /// </summary>
     /// <param name="textBeforePrefix"></param>
     /// <param name="prefix">String written before user input</param>
     /// <returns>User input</returns>
-    public static string ReadText(string textBeforePrefix, string prefix = " ==> ")
+    public static string ReadText(string textBeforePrefix, string prefix = DEFAULT_PREFIX)
     {
-        // throw NotImplementedException;
-
-        return "";
+        throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Reads a limited amount of characters in the console
+    /// </summary>
+    /// <param name="charCount">The amount of characters to read</param>
+    /// <param name="prefix">The prefix to show on the console</param>
+    /// <returns>A string of the characters read</returns>
+    public static string ReadTextLimited(uint charCount, string prefix = DEFAULT_PREFIX)
+    {
+        // Variables
+        List<char> input = new();
+        int index = 0;
+
+        while (index < charCount)
+        {
+            input.Add( Console.ReadKey().KeyChar );
+
+            index++;
+        }
+
+        return new string( input.ToArray() );
+    }
 
     #endregion
 
@@ -142,7 +162,7 @@ public static class Cslib
 
     public static int ReadIntWithinBounds(
         int lowerBound, int upperBound,
-        string prefix = " ==> ", string errorMessage = "Erreur : nombre entier invalide.")
+        string prefix = DEFAULT_PREFIX, string errorMessage = "Erreur : nombre entier invalide.")
     {
         // Variable
         string input;
@@ -172,7 +192,11 @@ public static class Cslib
 
     #region ReadBool
 
-
+    public static bool ReadBool(char charTrue, char charFalse, string prefixe = DEFAULT_PREFIX)
+    {
+        // Variable
+        char[] charArray;
+    }
 
     #endregion
 }
