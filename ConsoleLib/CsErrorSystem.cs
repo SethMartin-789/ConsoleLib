@@ -1,6 +1,7 @@
 ﻿namespace ConsoleLib;
 
-public static class ErrorSystem
+
+public static class CsErrorSystem
 {
     public static void ShowCriticalError(string smallErrorDescription, bool inFrench = false)
     {
