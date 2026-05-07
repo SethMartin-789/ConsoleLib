@@ -181,7 +181,7 @@ public static class Cslib
 
         do
         {
-            input = ReadText(prefix);
+            input = ReadText(prefix).Trim();
 
             success = int.TryParse(input, out number);
             success = success && number <= upperBound && number >= lowerBound;
@@ -215,7 +215,7 @@ public static class Cslib
         bool result = falseByDefault ? false : true;
 
         // Read the boolean
-        input = ReadTextLimited(1, true, prefix).ToLower();
+        input = ReadTextLimited(1, true, prefix).Trim().ToLower();
 
         // Interpret according to the falseByDefault parameter
         if (falseByDefault)
