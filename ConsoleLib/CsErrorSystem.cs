@@ -3,6 +3,21 @@
 
 public static class CsErrorSystem
 {
+    /// <summary>
+    /// A wrapper method to show errors in red
+    /// </summary>
+    /// <param name="message">The message to show</param>
+    public static void ShowError(string message)
+    {
+        // Variable
+        ConsoleColor initialColor = Console.ForegroundColor;
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(message);
+
+        Console.ForegroundColor = initialColor;
+    }
+
     public static void ShowCriticalError(string smallErrorDescription, bool inFrench = false)
     {
         if (inFrench)
