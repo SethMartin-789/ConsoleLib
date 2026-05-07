@@ -10,7 +10,7 @@ public static class CsErrorSystem
     public static void ShowError(string message)
     {
         // Variable
-        Cslib.DisplayColoredMessage(message, ConsoleColor.Red);
+        Cslib.DisplayColoredMessage(message, ConsoleColor.Red, true);
     }
 
     public static void ShowCriticalError(string smallErrorDescription, bool inFrench = false)
