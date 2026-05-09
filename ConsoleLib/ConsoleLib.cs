@@ -61,14 +61,15 @@ public static class Cslib
             separatorCharCount = title.Length + 20;
         }
         
-        // Variable
+        // Variables
         string separator = "".PadLeft( (int)separatorCharCount, separatorChar );
+        string padding   = "".PadLeft( ((int)separatorCharCount - title.Length) / 2, ' ' );
         
         // Display
         Console.ForegroundColor = color;
 
         Console.WriteLine( separator );
-        Console.WriteLine( title.PadLeft( ((int)separatorCharCount - title.Length) / 2, ' ' ) );
+        Console.WriteLine( padding + title );
         Console.WriteLine( separator + Environment.NewLine );
 
         Console.ForegroundColor = COLOR_BASE;
