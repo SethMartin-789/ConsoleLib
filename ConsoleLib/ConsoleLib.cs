@@ -8,6 +8,9 @@ public static class Cslib
     const ConsoleColor COLOR_INPUT  = ConsoleColor.Green;
     const ConsoleColor COLOR_PREFIX = ConsoleColor.White;
     const ConsoleColor COLOR_FLASHY = ConsoleColor.Cyan;
+
+    // Attribute
+    private static ConsoleColor? _backgroundColor = null;
     
     // Methods
     #region DisplayText
@@ -19,11 +22,14 @@ public static class Cslib
     /// <param name="foregroundColor">The foreground color</param>
     /// <param name="backgroundColor">The background color</param>
     /// <param name="newlineAtEnd">Whether to display a newline at the end of the message</param>
-    public static void DisplayColoredMessage(string message, ConsoleColor foregroundColor, ConsoleColor backgroundColor, bool newlineAtEnd = false)
+    public static void DisplayColoredMessage(
+        string message, ConsoleColor foregroundColor, ConsoleColor? backgroundColor = null, bool newlineAtEnd = false
+    )
     {
-        // Save initial color
-        ConsoleColor initialForegroundColor = Console.ForegroundColor;
-        ConsoleColor initialBackgroundColor = Console.BackgroundColor;
+        // Save initial colors
+        _backgroundColor ??= Console.BackgroundColor;
+        backgroundColor  ??= _backgroundColor;
+        ConsoleColor initialColor = Console.ForegroundColor;
 
         // Consider newline
         if (newlineAtEnd)
@@ -31,12 +37,12 @@ public static class Cslib
 
         // Display
         Console.ForegroundColor = foregroundColor;
-        Console.BackgroundColor = backgroundColor;
+        Console.BackgroundColor = backgroundColor.Value;
         Console.Write(message);
 
-        // Reset color
-        Console.ForegroundColor = initialForegroundColor;
-        Console.BackgroundColor = initialBackgroundColor;
+        // Reset colors
+        Console.ForegroundColor = initialColor;
+        Console.BackgroundColor = _backgroundColor.Value;
     }
 
     /// <summary>
