@@ -126,12 +126,17 @@ public static class Cslib
     /// <summary>
     /// Reads a line of text in the console
     /// </summary>
+    /// <param name="textBeforePrefix"></param>
     /// <param name="prefix">A string shown before user input</param>
     /// <returns>User input</returns>
-    public static string ReadText(string prefix = DEFAULT_PREFIX)
+    public static string ReadText(string textBeforePrefix, string prefix = DEFAULT_PREFIX)
     {
         // Variable
         string? entry;
+
+        // Display first text
+        Console.ForegroundColor = COLOR_BASE;
+        Console.Write(prefix);
 
         // Display prefix
         Console.ForegroundColor = COLOR_PREFIX;
@@ -149,17 +154,6 @@ public static class Cslib
 
         // Return user input
         return entry;
-    }
-
-    /// <summary>
-    /// Reads a line of text in the console
-    /// </summary>
-    /// <param name="textBeforePrefix"></param>
-    /// <param name="prefix">A string shown before user input</param>
-    /// <returns>User input</returns>
-    public static string ReadText(string textBeforePrefix, string prefix = DEFAULT_PREFIX)
-    {
-        throw new NotImplementedException();
     }
 
     /// <summary>
