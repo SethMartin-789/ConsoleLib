@@ -1,4 +1,6 @@
-﻿namespace ConsoleLib;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace ConsoleLib;
 
 public static class Cslib
 {
@@ -197,32 +199,72 @@ public static class Cslib
 
     #region ReadInt
 
-    public static int ReadIntWithinBounds(
-        int lowerBound, int upperBound,
-        string prefix = DEFAULT_PREFIX, string errorMessage = "Erreur : choix entier invalide.")
+    public static int ReadInt(
+        string textBeforePrefix = "", string prefix = DEFAULT_PREFIX,
+        string errorMessage = "entier invalide"
+        )
     {
         // Variable
         string input;
-        int number = lowerBound - 1;
+        int number;
 
         bool success;
 
         do
         {
-            input = ReadText("", prefix).Trim();
+            input = ReadText(textBeforePrefix, prefix).Trim();
 
             success = int.TryParse(input, out number);
-            success = success && number <= upperBound && number >= lowerBound;
 
             if (!success)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(errorMessage);
-                Console.ForegroundColor = COLOR_BASE;
+                CsErrorSystem.ShowError(errorMessage);
             }
         } while (!success);
 
         return number;
+    }
+
+    public static int ReadIntWithinBounds(
+        int lowerBound, int upperBound,
+        string textBeforePrefix = "",
+        string prefix = DEFAULT_PREFIX, string errorMessage = "Erreur : choix entier invalide.")
+    {
+        // Variable
+        int input;
+
+        do
+        {
+            input = ReadInt(textBeforePrefix, prefix);
+
+            if (input < lowerBound || input > upperBound)
+            {
+                CsErrorSystem.ShowError(errorMessage);
+            }
+        } while (input < lowerBound || input > upperBound);
+
+        return input;
+    }
+
+    public static int ReadIntGreaterThanThis(
+        int x, string textBeforePrefix = "", string prefix = DEFAULT_PREFIX,
+        string errorMessage = "entier plus petit qu'est requis"
+        )
+    {
+        // Variable
+        int input;
+
+        do
+        {
+            input = ReadInt(textBeforePrefix, prefix);
+
+            if (input > x)
+            {
+                CsErrorSystem.ShowError(errorMessage);
+            }
+        } while (input > x);
+
+        return input;
     }
 
     #endregion
