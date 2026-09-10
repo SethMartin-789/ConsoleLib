@@ -136,7 +136,7 @@ public static class Cslib
 
         // Display first text
         Console.ForegroundColor = COLOR_BASE;
-        Console.Write(prefix);
+        Console.Write(textBeforePrefix);
 
         // Display prefix
         Console.ForegroundColor = COLOR_PREFIX;
@@ -209,7 +209,7 @@ public static class Cslib
 
         do
         {
-            input = ReadText(prefix).Trim();
+            input = ReadText("", prefix).Trim();
 
             success = int.TryParse(input, out number);
             success = success && number <= upperBound && number >= lowerBound;
