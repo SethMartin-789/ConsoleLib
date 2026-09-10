@@ -1,6 +1,5 @@
 ﻿namespace ConsoleLib;
 
-
 public static class CsErrorSystem
 {
     /// <summary>
