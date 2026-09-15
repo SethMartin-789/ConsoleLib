@@ -56,6 +56,7 @@ public static class Cslib
     /// <param name="color">The color of the header</param>
     public static void DisplayHeader(
         string title,
+        bool clearConsole = false,
         char separatorChar = '*',
         int? separatorCharCount = null,
         ConsoleColor color = COLOR_FLASHY
@@ -75,6 +76,8 @@ public static class Cslib
         
         // Display
         Console.ForegroundColor = color;
+
+        if (clearConsole) Console.Clear();
 
         Console.WriteLine( separator );
         Console.WriteLine( padding + title );
