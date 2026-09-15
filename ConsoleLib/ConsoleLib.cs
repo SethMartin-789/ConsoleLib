@@ -258,11 +258,11 @@ public static class Cslib
         {
             input = ReadInt(textBeforePrefix, prefix);
 
-            if (input > x)
+            if (input <= x)
             {
                 CsErrorSystem.ShowError(errorMessage);
             }
-        } while (input > x);
+        } while (input <= x);
 
         return input;
     }
