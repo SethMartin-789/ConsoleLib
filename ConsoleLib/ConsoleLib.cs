@@ -191,7 +191,44 @@ public static class Cslib
 
         return new string( input.ToArray() );
     }
+    /// <summary>
+    /// Reads answer from Yes/No questions
+    /// </summary>
+    /// <param name="textBeforePrefix"></param>
+    /// <param name="prefix">A string shown before user input</param>
+    /// <returns>A string equal to Yes or no</returns>
+    public static string ReadYesNoQuestion(string textBeforePrefix, string prefix = DEFAULT_PREFIX)
+    {
+        // Variable
+        string? entry = "";
 
+        //Loop until the answer is yes or no
+        while (entry.ToLower().Trim() != "non" && entry.ToLower().Trim() != "oui")
+        {
+            // Display first text
+            Console.ForegroundColor = COLOR_BASE;
+            Console.Write(textBeforePrefix);
+
+            // Display prefix
+            Console.ForegroundColor = COLOR_PREFIX;
+            Console.Write(prefix);
+
+            // Get user input
+            Console.ForegroundColor = COLOR_INPUT;
+            entry = Console.ReadLine() ?? "";
+
+            //Checks for Yes/No answers
+            if (entry.ToLower().Trim() != "non" && entry.ToLower().Trim() != "oui")
+            {
+                CsErrorSystem.ShowError("reponse invalide");
+            }
+
+            Console.ForegroundColor = COLOR_BASE;
+        }
+
+        // Return user input
+        return entry;
+    }
     #endregion
 
     #region ReadDouble
