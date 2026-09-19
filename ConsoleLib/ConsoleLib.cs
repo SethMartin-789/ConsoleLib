@@ -391,45 +391,63 @@ public static class Cslib
 
     #region ManipulerFichier
 
-    public static bool WriteTextToUserFile(string fileName, string text)
+    public static void WriteTextToUserFile(string fileName, string text)
     {
-        string folderPath = ReadText("Veuillez écrire le chemin du dossier dans lequel vous voulez sauvegarder", " : ");
+        bool correct = false;
+        string folderPath;
+        string filePath = "";
 
-        try
+        while (correct is false)
         {
-            string cheminFichier = Path.Combine(
-                folderPath,
-                fileName
-            );
-            File.WriteAllText(cheminFichier, text);
+            try
+            {
+                folderPath = ReadText("Veuillez écrire le chemin du dossier dans lequel vous voulez sauvegarder", " : ");
 
-            return true;
-        }
-        catch (Exception exception)
-        {
-            CsErrorSystem.ShowError($"Erreur lors de l'écriture dans le fichier : {exception.Message}");
+                filePath = Path.Combine(
+                    folderPath,
+                    fileName
+                );
+                File.WriteAllText(filePath, text);
 
-            return false;
+                // Finir la loop si l'écriture est réussie
+                correct = true;
+            }
+            catch (Exception exception)
+            {
+                CsErrorSystem.ShowError($"Erreur lors de l'écriture dans le fichier : {exception.Message}");
+
+                Console.WriteLine();
+            }
         }
+
+        Console.WriteLine("\nÉcriture du fichier réussie!");
+        Console.WriteLine($"Emplacement : {filePath}");
     }
 
-    public static bool ReadTextFromUserFile(out string text)
+    public static void ReadTextFromUserFile(out string text)
     {
         text = "";
+
+        bool correct = false;
         string filePath = ReadText("Veuillez écrire le chemin du fichier que vous souhaitez lire", " : ");
 
-        try
+        while (correct is false)
         {
-            text = File.ReadAllText(filePath);
-            
-            return true;
-        }
-        catch (Exception exception)
-        {
-            CsErrorSystem.ShowError($"Erreur lors de la lecture du fichier : {exception.Message}");
+            try
+            {
+                text = File.ReadAllText(filePath);
 
-            return false;
+                correct = true;
+            }
+            catch (Exception exception)
+            {
+                CsErrorSystem.ShowError($"Erreur lors de la lecture du fichier : {exception.Message}");
+
+                Console.WriteLine();
+            }
         }
+
+        Console.WriteLine("\nLecture du fichier réussie!");
     }
 
     #endregion
