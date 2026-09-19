@@ -430,12 +430,14 @@ public static class Cslib
         text = "";
 
         bool correct = false;
-        string filePath = ReadText("Veuillez écrire le chemin du fichier que vous souhaitez lire", " : ");
+        string filePath = "";
 
         while (correct is false)
         {
             try
             {
+                filePath = ReadText("Veuillez écrire le chemin du fichier que vous souhaitez lire", " : ");
+
                 text = File.ReadAllText(filePath);
 
                 correct = true;
