@@ -134,28 +134,36 @@ public static class Cslib
     /// <param name="textBeforePrefix"></param>
     /// <param name="prefix">A string shown before user input</param>
     /// <returns>User input</returns>
-    public static string ReadText(string textBeforePrefix, string prefix = DEFAULT_PREFIX)
+    public static string ReadText(string textBeforePrefix, string prefix = DEFAULT_PREFIX, string errorMessage = "Erreur : valeur null.")
     {
         // Variable
         string? entry;
+        bool success = true;
 
-        // Display first text
-        Console.ForegroundColor = COLOR_BASE;
-        Console.Write(textBeforePrefix);
+        do {
+            // Display first text
+            Console.ForegroundColor = COLOR_BASE;
+            Console.Write(textBeforePrefix);
 
-        // Display prefix
-        Console.ForegroundColor = COLOR_PREFIX;
-        Console.Write(prefix);
+            // Display prefix
+            Console.ForegroundColor = COLOR_PREFIX;
+            Console.Write(prefix);
 
-        // Get user input
-        Console.ForegroundColor = COLOR_INPUT;
+            // Get user input
+            Console.ForegroundColor = COLOR_INPUT;
 
-        if ((entry = Console.ReadLine()) is null)
-        {
-            return "";
-        }
+            if ((entry = Console.ReadLine()) is null || entry == "")
+            {
+                success = false;
+            }
 
-        Console.ForegroundColor = COLOR_BASE;
+            Console.ForegroundColor = COLOR_BASE;
+
+            if (!success)
+            {
+                CsErrorSystem.ShowError(errorMessage);
+            }
+        } while (!success);
 
         // Return user input
         return entry;
@@ -335,6 +343,48 @@ public static class Cslib
                 result = false;
 
         return result;
+    }
+
+    #endregion
+
+    #region ManipulerType
+
+    public static Type? GetTypeMembre<T>(string nomType)
+    {
+        Type? type = Type.GetType(nomType);
+
+        if (type is null)
+        {
+            return null;
+        }
+
+        if (!typeof(T).IsAssignableFrom(type))
+        {
+            return null;
+        }
+
+        return type;
+    }
+
+    public static T InitialiserType<T>(Type type)
+        where T : class
+    {
+        if (!typeof(T).IsAssignableFrom(type))
+        {
+            throw new ArgumentException(
+                $"Le type '{type.FullName}' n'est pas un " +
+                $"{typeof(T).Name} valide.");
+        }
+
+        if (type.IsAbstract)
+        {
+            throw new ArgumentException(
+                $"Le type '{type.FullName}' est abstrait et ne peut pas être instancié.");
+        }
+
+        return Activator.CreateInstance(type) as T
+            ?? throw new ArgumentException(
+                $"Impossible d'instancier le type '{type.FullName}'.");
     }
 
     #endregion
