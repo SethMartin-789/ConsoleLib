@@ -380,4 +380,49 @@ public static class Cslib
     }
 
     #endregion
+
+    #region ManipulerFichier
+
+    public static bool WriteTextToUserFile(string fileName, string text)
+    {
+        string folderPath = ReadText("Veuillez écrire le chemin du dossier dans lequel vous voulez sauvegarder", " : ");
+
+        try
+        {
+            string cheminFichier = Path.Combine(
+                folderPath,
+                fileName
+            );
+            File.WriteAllText(cheminFichier, text);
+
+            return true;
+        }
+        catch (Exception exception)
+        {
+            CsErrorSystem.ShowError($"Erreur lors de l'écriture dans le fichier : {exception.Message}");
+
+            return false;
+        }
+    }
+
+    public static bool ReadTextFromUserFile(out string text)
+    {
+        text = "";
+        string filePath = ReadText("Veuillez écrire le chemin du fichier que vous souhaitez lire", " : ");
+
+        try
+        {
+            text = File.ReadAllText(filePath);
+            
+            return true;
+        }
+        catch (Exception exception)
+        {
+            CsErrorSystem.ShowError($"Erreur lors de la lecture du fichier : {exception.Message}");
+
+            return false;
+        }
+    }
+
+    #endregion
 }
