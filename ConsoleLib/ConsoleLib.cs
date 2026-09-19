@@ -388,4 +388,91 @@ public static class Cslib
     }
 
     #endregion
+
+    #region ManipulerFichier
+
+    public static bool WriteTextToUserFile(string fileName, string text)
+    {
+        string folderPath = ReadText("Veuillez écrire le chemin du dossier dans lequel vous voulez sauvegarder", " : ");
+
+        try
+        {
+            string cheminFichier = Path.Combine(
+                folderPath,
+                fileName
+            );
+            File.WriteAllText(cheminFichier, text);
+
+            return true;
+        }
+        catch (Exception exception)
+        {
+            CsErrorSystem.ShowError($"Erreur lors de l'écriture dans le fichier : {exception.Message}");
+
+            return false;
+        }
+    }
+
+    public static bool ReadTextFromUserFile(out string text)
+    {
+        text = "";
+        string filePath = ReadText("Veuillez écrire le chemin du fichier que vous souhaitez lire", " : ");
+
+        try
+        {
+            text = File.ReadAllText(filePath);
+            
+            return true;
+        }
+        catch (Exception exception)
+        {
+            CsErrorSystem.ShowError($"Erreur lors de la lecture du fichier : {exception.Message}");
+
+            return false;
+        }
+    }
+
+    #endregion
+
+    #region ManipulerType
+
+    public static Type? GetTypeMembre<T>(string nomType)
+    {
+        Type? type = Type.GetType(nomType);
+
+        if (type is null)
+        {
+            return null;
+        }
+
+        if (!typeof(T).IsAssignableFrom(type))
+        {
+            return null;
+        }
+
+        return type;
+    }
+
+    public static T InitialiserType<T>(Type type)
+        where T : class
+    {
+        if (!typeof(T).IsAssignableFrom(type))
+        {
+            throw new ArgumentException(
+                $"Le type '{type.FullName}' n'est pas un " +
+                $"{typeof(T).Name} valide.");
+        }
+
+        if (type.IsAbstract)
+        {
+            throw new ArgumentException(
+                $"Le type '{type.FullName}' est abstrait et ne peut pas être instancié.");
+        }
+
+        return Activator.CreateInstance(type) as T
+            ?? throw new ArgumentException(
+                $"Impossible d'instancier le type '{type.FullName}'.");
+    }
+
+    #endregion
 }
