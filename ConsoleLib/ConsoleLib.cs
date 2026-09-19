@@ -352,7 +352,7 @@ public static class Cslib
 
     public static Type? GetTypeMembre<T>(string nomType)
     {
-        Type? type = Type.GetType(nomType);
+        Type? type = typeof(T).Assembly.GetType(typeof(T).Namespace + "." + nomType);
 
         if (type is null)
         {
