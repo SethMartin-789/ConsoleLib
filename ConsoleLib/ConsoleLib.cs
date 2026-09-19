@@ -151,6 +151,7 @@ public static class Cslib
 
             // Get user input
             Console.ForegroundColor = COLOR_INPUT;
+            success = true;
 
             if ((entry = Console.ReadLine()) is null || entry == "")
             {
