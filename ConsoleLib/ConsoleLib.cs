@@ -433,46 +433,4 @@ public static class Cslib
     }
 
     #endregion
-
-    #region ManipulerType
-
-    public static Type? GetTypeMembre<T>(string nomType)
-    {
-        Type? type = Type.GetType(nomType);
-
-        if (type is null)
-        {
-            return null;
-        }
-
-        if (!typeof(T).IsAssignableFrom(type))
-        {
-            return null;
-        }
-
-        return type;
-    }
-
-    public static T InitialiserType<T>(Type type)
-        where T : class
-    {
-        if (!typeof(T).IsAssignableFrom(type))
-        {
-            throw new ArgumentException(
-                $"Le type '{type.FullName}' n'est pas un " +
-                $"{typeof(T).Name} valide.");
-        }
-
-        if (type.IsAbstract)
-        {
-            throw new ArgumentException(
-                $"Le type '{type.FullName}' est abstrait et ne peut pas être instancié.");
-        }
-
-        return Activator.CreateInstance(type) as T
-            ?? throw new ArgumentException(
-                $"Impossible d'instancier le type '{type.FullName}'.");
-    }
-
-    #endregion
 }
