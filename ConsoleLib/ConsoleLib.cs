@@ -402,7 +402,8 @@ public static class Cslib
         {
             try
             {
-                folderPath = ReadText("Veuillez écrire le chemin du dossier dans lequel vous voulez sauvegarder", " : ");
+                folderPath = ReadText("Veuillez écrire le chemin du dossier dans lequel vous voulez sauvegarder", " : ")
+                            .Replace('\"', ' ').Trim();
 
                 filePath = Path.Combine(
                     folderPath,
@@ -436,7 +437,8 @@ public static class Cslib
         {
             try
             {
-                filePath = ReadText("Veuillez écrire le chemin du fichier que vous souhaitez lire", " : ");
+                filePath = ReadText("Veuillez écrire le chemin du fichier que vous souhaitez lire", " : ")
+                          .Replace('\"', ' ').Trim();
 
                 text = File.ReadAllText(filePath);
 
