@@ -134,7 +134,10 @@ public static class Cslib
     /// <param name="textBeforePrefix"></param>
     /// <param name="prefix">A string shown before user input</param>
     /// <returns>User input</returns>
-    public static string ReadText(string textBeforePrefix, string prefix = DEFAULT_PREFIX, string errorMessage = "Erreur : valeur null.")
+    public static string ReadText(
+        string textBeforePrefix,
+        string prefix = DEFAULT_PREFIX,
+        string errorMessage = "Erreur : valeur null.")
     {
         // Variable
         string? entry;
@@ -153,10 +156,51 @@ public static class Cslib
             Console.ForegroundColor = COLOR_INPUT;
             success = true;
 
-            if ((entry = Console.ReadLine()) is null || entry == "")
+            if ((entry = Console.ReadLine()) is null)
             {
                 success = false;
             }
+
+            Console.ForegroundColor = COLOR_BASE;
+
+            if (!success)
+            {
+                CsErrorSystem.ShowError(errorMessage);
+            }
+        } while (!success);
+
+        // Return user input
+        return entry;
+    }
+
+    /// <summary>
+    /// Reads a line of text in the console that can be null
+    /// </summary>
+    /// <returns>User input</returns>
+    public static string? ReadTextNullable(
+        string textBeforePrefix,
+        string prefix = DEFAULT_PREFIX,
+        string errorMessage = "Erreur : valeur null.")
+    {
+        // Variable
+        string? entry;
+        bool success = true;
+
+        do
+        {
+            // Display first text
+            Console.ForegroundColor = COLOR_BASE;
+            Console.Write(textBeforePrefix);
+
+            // Display prefix
+            Console.ForegroundColor = COLOR_PREFIX;
+            Console.Write(prefix);
+
+            // Get user input
+            Console.ForegroundColor = COLOR_INPUT;
+            success = true;
+
+            entry = Console.ReadLine();
 
             Console.ForegroundColor = COLOR_BASE;
 
@@ -249,7 +293,8 @@ public static class Cslib
     #region ReadInt
 
     public static int ReadInt(
-        string textBeforePrefix = "", string prefix = DEFAULT_PREFIX,
+        string textBeforePrefix = "",
+        string prefix = DEFAULT_PREFIX,
         string errorMessage = "entier invalide"
         )
     {
@@ -395,17 +440,22 @@ public static class Cslib
     public static bool WriteTextToUserFile(string fileName, string text)
     {
         bool correct = false;
-        string folderPath;
+        string? folderPath;
         string filePath = "";
 
         while (correct is false)
         {
             try
             {
-                folderPath = ReadText("Veuillez écrire le chemin du dossier dans lequel vous voulez sauvegarder (laissez vide pour quitter)", " : ")
-                            .Replace('\"', ' ').Trim();
+                folderPath = ReadTextNullable(
+                    "Veuillez écrire le chemin du dossier dans lequel vous voulez sauvegarder (laissez vide pour quitter)", " : "
+                    );
 
-                if (folderPath is "") return false;
+                if (folderPath is "" or null) return false;
+
+                folderPath = folderPath.Replace('\"', ' ').Trim();
+
+                if (folderPath is "" or null) return false;
 
                 filePath = Path.Combine(
                     folderPath,
@@ -435,19 +485,21 @@ public static class Cslib
         text = "";
 
         bool correct = false;
-        string filePath = "";
+        string? filePath = "";
 
         while (correct is false)
         {
             try
             {
-                filePath = ReadText("Veuillez écrire le chemin du fichier que vous souhaitez lire (laissez vide pour quitter)", " : ")
-                          .Replace('\"', ' ').Trim();
+                filePath = ReadTextNullable(
+                    "Veuillez écrire le chemin du fichier que vous souhaitez lire (laissez vide pour quitter)", " : "
+                    );
 
-                if (filePath is "")
-                {
-                    return false;
-                }
+                if (filePath is "" or null) return false;
+
+                filePath = filePath.Replace('\"', ' ').Trim();
+
+                if (filePath is "" or null) return false;
 
                 text = File.ReadAllText(filePath);
 
