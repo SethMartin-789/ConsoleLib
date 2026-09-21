@@ -338,4 +338,124 @@ public static class Cslib
     }
 
     #endregion
+
+    #region ManipulerType
+
+    public static Type? GetTypeMembre<T>(string nomType)
+    {
+        Type? type = typeof(T).Assembly.GetType(typeof(T).Namespace + "." + nomType);
+
+        if (type is null)
+        {
+            return null;
+        }
+
+        if (!typeof(T).IsAssignableFrom(type))
+        {
+            return null;
+        }
+
+        return type;
+    }
+
+    public static T InitialiserType<T>(Type type)
+        where T : class
+    {
+        if (!typeof(T).IsAssignableFrom(type))
+        {
+            throw new ArgumentException(
+                $"Le type '{type.FullName}' n'est pas un " +
+                $"{typeof(T).Name} valide.");
+        }
+
+        if (type.IsAbstract)
+        {
+            throw new ArgumentException(
+                $"Le type '{type.FullName}' est abstrait et ne peut pas être instancié.");
+        }
+
+        return Activator.CreateInstance(type) as T
+            ?? throw new ArgumentException(
+                $"Impossible d'instancier le type '{type.FullName}'.");
+    }
+
+    #endregion
+
+    #region ManipulerFichier
+
+    public static bool WriteTextToUserFile(string fileName, string text)
+    {
+        bool correct = false;
+        string folderPath;
+        string filePath = "";
+
+        while (correct is false)
+        {
+            try
+            {
+                folderPath = ReadText("Veuillez écrire le chemin du dossier dans lequel vous voulez sauvegarder (laissez vide pour quitter)", " : ")
+                            .Replace('\"', ' ').Trim();
+
+                if (folderPath is "") return false;
+
+                filePath = Path.Combine(
+                    folderPath,
+                    fileName
+                );
+                File.WriteAllText(filePath, text);
+
+                // Finir la loop si l'écriture est réussie
+                correct = true;
+            }
+            catch (Exception exception)
+            {
+                CsErrorSystem.ShowError($"Erreur lors de l'écriture dans le fichier : {exception.Message}");
+
+                Console.WriteLine();
+            }
+        }
+
+        Console.WriteLine("\nÉcriture du fichier réussie!");
+        Console.WriteLine($"Emplacement : {filePath}");
+
+        return true;
+    }
+
+    public static bool ReadTextFromUserFile(out string text)
+    {
+        text = "";
+
+        bool correct = false;
+        string filePath = "";
+
+        while (correct is false)
+        {
+            try
+            {
+                filePath = ReadText("Veuillez écrire le chemin du fichier que vous souhaitez lire (laissez vide pour quitter)", " : ")
+                          .Replace('\"', ' ').Trim();
+
+                if (filePath is "")
+                {
+                    return false;
+                }
+
+                text = File.ReadAllText(filePath);
+
+                correct = true;
+            }
+            catch (Exception exception)
+            {
+                CsErrorSystem.ShowError($"Erreur lors de la lecture du fichier : {exception.Message}");
+
+                Console.WriteLine();
+            }
+        }
+
+        Console.WriteLine("\nLecture du fichier réussie!");
+
+        return true;
+    }
+
+    #endregion
 }
