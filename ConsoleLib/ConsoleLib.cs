@@ -134,28 +134,37 @@ public static class Cslib
     /// <param name="textBeforePrefix"></param>
     /// <param name="prefix">A string shown before user input</param>
     /// <returns>User input</returns>
-    public static string ReadText(string textBeforePrefix, string prefix = DEFAULT_PREFIX)
+    public static string ReadText(string textBeforePrefix, string prefix = DEFAULT_PREFIX, string errorMessage = "Erreur : valeur null.")
     {
         // Variable
         string? entry;
+        bool success = true;
 
-        // Display first text
-        Console.ForegroundColor = COLOR_BASE;
-        Console.Write(textBeforePrefix);
+        do {
+            // Display first text
+            Console.ForegroundColor = COLOR_BASE;
+            Console.Write(textBeforePrefix);
 
-        // Display prefix
-        Console.ForegroundColor = COLOR_PREFIX;
-        Console.Write(prefix);
+            // Display prefix
+            Console.ForegroundColor = COLOR_PREFIX;
+            Console.Write(prefix);
 
-        // Get user input
-        Console.ForegroundColor = COLOR_INPUT;
+            // Get user input
+            Console.ForegroundColor = COLOR_INPUT;
+            success = true;
 
-        if ((entry = Console.ReadLine()) is null)
-        {
-            return "";
-        }
+            if ((entry = Console.ReadLine()) is null || entry == "")
+            {
+                success = false;
+            }
 
-        Console.ForegroundColor = COLOR_BASE;
+            Console.ForegroundColor = COLOR_BASE;
+
+            if (!success)
+            {
+                CsErrorSystem.ShowError(errorMessage);
+            }
+        } while (!success);
 
         // Return user input
         return entry;
